@@ -1,0 +1,9 @@
+{
+  "name": "domain-ps",
+  "version": "0.0.1",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "ts-protoc-gen": "^0.12.0"
+  }
+}

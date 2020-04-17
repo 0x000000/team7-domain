@@ -1,0 +1,22 @@
+syntax = "proto3";
+package domain;
+
+import "definitions/types/date.proto";
+import "definitions/user.proto";
+
+message Loan {
+  enum State {
+    Draft = 0;
+    Submitted = 10;
+    Approved = 20;
+    Rejected = 100;
+  }
+
+  uint64 id = 1;
+  string notes = 2;
+  User user = 3;
+  State state = 4;
+
+  types.DateTimeUTC created_at = 5;
+  types.DateTimeUTC updated_at = 6;
+}

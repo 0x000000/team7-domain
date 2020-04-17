@@ -1,0 +1,19 @@
+syntax = "proto3";
+package domain.api.private;
+
+import "google/protobuf/empty.proto";
+import "definitions/loan.proto";
+
+message AllLoansResponse {
+  repeated Loan loans = 1;
+}
+
+message ClientData {
+  uint64 id = 1;
+}
+
+service LoansService {
+  rpc LoadAll(google.protobuf.Empty) returns (AllLoansResponse);
+  rpc UpdateLoan(Loan) returns (google.protobuf.Empty);
+  rpc ListenToLoanUpdates(ClientData) returns (stream Loan);
+}
