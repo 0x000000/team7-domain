@@ -2,7 +2,6 @@
 // file: definitions/user.proto
 
 import * as jspb from "google-protobuf";
-import * as definitions_role_pb from "../definitions/role_pb";
 
 export class User extends jspb.Message {
   getId(): number;
@@ -11,10 +10,8 @@ export class User extends jspb.Message {
   getName(): string;
   setName(value: string): void;
 
-  clearRolesList(): void;
-  getRolesList(): Array<definitions_role_pb.Role>;
-  setRolesList(value: Array<definitions_role_pb.Role>): void;
-  addRoles(value?: definitions_role_pb.Role, index?: number): definitions_role_pb.Role;
+  getAvatarUrl(): string;
+  setAvatarUrl(value: string): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): User.AsObject;
@@ -30,7 +27,7 @@ export namespace User {
   export type AsObject = {
     id: number,
     name: string,
-    rolesList: Array<definitions_role_pb.Role.AsObject>,
+    avatarUrl: string,
   }
 }
 

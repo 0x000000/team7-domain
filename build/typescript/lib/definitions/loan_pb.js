@@ -16,6 +16,8 @@ var definitions_types_date_pb = require('../definitions/types/date_pb.js');
 goog.object.extend(proto, definitions_types_date_pb);
 var definitions_user_pb = require('../definitions/user_pb.js');
 goog.object.extend(proto, definitions_user_pb);
+var definitions_address_pb = require('../definitions/address_pb.js');
+goog.object.extend(proto, definitions_address_pb);
 goog.exportSymbol('proto.domain.Loan', null, global);
 goog.exportSymbol('proto.domain.Loan.State', null, global);
 /**
@@ -75,6 +77,7 @@ proto.domain.Loan.toObject = function(includeInstance, msg) {
     notes: jspb.Message.getFieldWithDefault(msg, 2, ""),
     user: (f = msg.getUser()) && definitions_user_pb.User.toObject(includeInstance, f),
     state: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    address: (f = msg.getAddress()) && definitions_address_pb.Address.toObject(includeInstance, f),
     createdAt: (f = msg.getCreatedAt()) && definitions_types_date_pb.DateTimeUTC.toObject(includeInstance, f),
     updatedAt: (f = msg.getUpdatedAt()) && definitions_types_date_pb.DateTimeUTC.toObject(includeInstance, f)
   };
@@ -131,11 +134,16 @@ proto.domain.Loan.deserializeBinaryFromReader = function(msg, reader) {
       msg.setState(value);
       break;
     case 5:
+      var value = new definitions_address_pb.Address;
+      reader.readMessage(value,definitions_address_pb.Address.deserializeBinaryFromReader);
+      msg.setAddress(value);
+      break;
+    case 100:
       var value = new definitions_types_date_pb.DateTimeUTC;
       reader.readMessage(value,definitions_types_date_pb.DateTimeUTC.deserializeBinaryFromReader);
       msg.setCreatedAt(value);
       break;
-    case 6:
+    case 101:
       var value = new definitions_types_date_pb.DateTimeUTC;
       reader.readMessage(value,definitions_types_date_pb.DateTimeUTC.deserializeBinaryFromReader);
       msg.setUpdatedAt(value);
@@ -198,10 +206,18 @@ proto.domain.Loan.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getCreatedAt();
+  f = message.getAddress();
   if (f != null) {
     writer.writeMessage(
       5,
+      f,
+      definitions_address_pb.Address.serializeBinaryToWriter
+    );
+  }
+  f = message.getCreatedAt();
+  if (f != null) {
+    writer.writeMessage(
+      100,
       f,
       definitions_types_date_pb.DateTimeUTC.serializeBinaryToWriter
     );
@@ -209,7 +225,7 @@ proto.domain.Loan.serializeBinaryToWriter = function(message, writer) {
   f = message.getUpdatedAt();
   if (f != null) {
     writer.writeMessage(
-      6,
+      101,
       f,
       definitions_types_date_pb.DateTimeUTC.serializeBinaryToWriter
     );
@@ -319,12 +335,49 @@ proto.domain.Loan.prototype.setState = function(value) {
 
 
 /**
- * optional types.DateTimeUTC created_at = 5;
+ * optional Address address = 5;
+ * @return {?proto.domain.Address}
+ */
+proto.domain.Loan.prototype.getAddress = function() {
+  return /** @type{?proto.domain.Address} */ (
+    jspb.Message.getWrapperField(this, definitions_address_pb.Address, 5));
+};
+
+
+/**
+ * @param {?proto.domain.Address|undefined} value
+ * @return {!proto.domain.Loan} returns this
+*/
+proto.domain.Loan.prototype.setAddress = function(value) {
+  return jspb.Message.setWrapperField(this, 5, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.domain.Loan} returns this
+ */
+proto.domain.Loan.prototype.clearAddress = function() {
+  return this.setAddress(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.domain.Loan.prototype.hasAddress = function() {
+  return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional types.DateTimeUTC created_at = 100;
  * @return {?proto.domain.types.DateTimeUTC}
  */
 proto.domain.Loan.prototype.getCreatedAt = function() {
   return /** @type{?proto.domain.types.DateTimeUTC} */ (
-    jspb.Message.getWrapperField(this, definitions_types_date_pb.DateTimeUTC, 5));
+    jspb.Message.getWrapperField(this, definitions_types_date_pb.DateTimeUTC, 100));
 };
 
 
@@ -333,7 +386,7 @@ proto.domain.Loan.prototype.getCreatedAt = function() {
  * @return {!proto.domain.Loan} returns this
 */
 proto.domain.Loan.prototype.setCreatedAt = function(value) {
-  return jspb.Message.setWrapperField(this, 5, value);
+  return jspb.Message.setWrapperField(this, 100, value);
 };
 
 
@@ -351,17 +404,17 @@ proto.domain.Loan.prototype.clearCreatedAt = function() {
  * @return {boolean}
  */
 proto.domain.Loan.prototype.hasCreatedAt = function() {
-  return jspb.Message.getField(this, 5) != null;
+  return jspb.Message.getField(this, 100) != null;
 };
 
 
 /**
- * optional types.DateTimeUTC updated_at = 6;
+ * optional types.DateTimeUTC updated_at = 101;
  * @return {?proto.domain.types.DateTimeUTC}
  */
 proto.domain.Loan.prototype.getUpdatedAt = function() {
   return /** @type{?proto.domain.types.DateTimeUTC} */ (
-    jspb.Message.getWrapperField(this, definitions_types_date_pb.DateTimeUTC, 6));
+    jspb.Message.getWrapperField(this, definitions_types_date_pb.DateTimeUTC, 101));
 };
 
 
@@ -370,7 +423,7 @@ proto.domain.Loan.prototype.getUpdatedAt = function() {
  * @return {!proto.domain.Loan} returns this
 */
 proto.domain.Loan.prototype.setUpdatedAt = function(value) {
-  return jspb.Message.setWrapperField(this, 6, value);
+  return jspb.Message.setWrapperField(this, 101, value);
 };
 
 
@@ -388,7 +441,7 @@ proto.domain.Loan.prototype.clearUpdatedAt = function() {
  * @return {boolean}
  */
 proto.domain.Loan.prototype.hasUpdatedAt = function() {
-  return jspb.Message.getField(this, 6) != null;
+  return jspb.Message.getField(this, 101) != null;
 };
 
 

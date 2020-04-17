@@ -1,0 +1,10 @@
+syntax = "proto3";
+package domain;
+
+message Address {
+  uint32 id = 1;
+  string street = 2;
+  string city = 3;
+  string state = 4;
+  string zip = 5;
+}

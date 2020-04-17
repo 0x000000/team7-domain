@@ -4,6 +4,7 @@
 import * as jspb from "google-protobuf";
 import * as definitions_types_date_pb from "../definitions/types/date_pb";
 import * as definitions_user_pb from "../definitions/user_pb";
+import * as definitions_address_pb from "../definitions/address_pb";
 
 export class Loan extends jspb.Message {
   getId(): number;
@@ -19,6 +20,11 @@ export class Loan extends jspb.Message {
 
   getState(): Loan.StateMap[keyof Loan.StateMap];
   setState(value: Loan.StateMap[keyof Loan.StateMap]): void;
+
+  hasAddress(): boolean;
+  clearAddress(): void;
+  getAddress(): definitions_address_pb.Address | undefined;
+  setAddress(value?: definitions_address_pb.Address): void;
 
   hasCreatedAt(): boolean;
   clearCreatedAt(): void;
@@ -46,6 +52,7 @@ export namespace Loan {
     notes: string,
     user?: definitions_user_pb.User.AsObject,
     state: Loan.StateMap[keyof Loan.StateMap],
+    address?: definitions_address_pb.Address.AsObject,
     createdAt?: definitions_types_date_pb.DateTimeUTC.AsObject,
     updatedAt?: definitions_types_date_pb.DateTimeUTC.AsObject,
   }

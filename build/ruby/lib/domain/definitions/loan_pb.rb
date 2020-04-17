@@ -5,6 +5,7 @@ require 'google/protobuf'
 
 require 'definitions/types/date_pb'
 require 'definitions/user_pb'
+require 'definitions/address_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("definitions/loan.proto", :syntax => :proto3) do
     add_message "domain.Loan" do
@@ -12,8 +13,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :notes, :string, 2
       optional :user, :message, 3, "domain.User"
       optional :state, :enum, 4, "domain.Loan.State"
-      optional :created_at, :message, 5, "domain.types.DateTimeUTC"
-      optional :updated_at, :message, 6, "domain.types.DateTimeUTC"
+      optional :address, :message, 5, "domain.Address"
+      optional :created_at, :message, 100, "domain.types.DateTimeUTC"
+      optional :updated_at, :message, 101, "domain.types.DateTimeUTC"
     end
     add_enum "domain.Loan.State" do
       value :Draft, 0

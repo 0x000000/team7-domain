@@ -3,13 +3,12 @@
 
 require 'google/protobuf'
 
-require 'definitions/role_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("definitions/user.proto", :syntax => :proto3) do
     add_message "domain.User" do
       optional :id, :uint32, 1
       optional :name, :string, 2
-      repeated :roles, :message, 3, "domain.Role"
+      optional :avatar_url, :string, 3
     end
   end
 end
