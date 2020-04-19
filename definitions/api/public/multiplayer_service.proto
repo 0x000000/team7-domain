@@ -6,10 +6,8 @@ import "definitions/api/web_client.proto";
 
 message WebAction {
   enum Type {
-    CONNECTED = 0;
-    DISCONNECTED = 1;
-    ACQUIRED = 2;
-    RELEASED = 3;
+    ACQUIRED = 0;
+    RELEASED = 1;
   }
 
   WebClient client = 1;
@@ -17,7 +15,12 @@ message WebAction {
   string element_locator = 3;
 }
 
+message ClientsUpdate {
+  repeated WebClient connected = 1;
+}
+
 service MultiplayerService {
-  rpc ListenToUpdates(WebClient) returns (stream WebAction);
   rpc Update(WebAction) returns (google.protobuf.Empty);
+  rpc ListenToActionUpdates(WebClient) returns (stream WebAction);
+  rpc ListenToClientUpdates(WebClient) returns (stream ClientsUpdate);
 }

@@ -13,10 +13,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :element_locator, :string, 3
     end
     add_enum "domain.api.public.WebAction.Type" do
-      value :CONNECTED, 0
-      value :DISCONNECTED, 1
-      value :ACQUIRED, 2
-      value :RELEASED, 3
+      value :ACQUIRED, 0
+      value :RELEASED, 1
+    end
+    add_message "domain.api.public.ClientsUpdate" do
+      repeated :connected, :message, 1, "domain.api.WebClient"
     end
   end
 end
@@ -26,6 +27,7 @@ module Domain
     module Public
       WebAction = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("domain.api.public.WebAction").msgclass
       WebAction::Type = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("domain.api.public.WebAction.Type").enummodule
+      ClientsUpdate = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("domain.api.public.ClientsUpdate").msgclass
     end
   end
 end

@@ -66,8 +66,7 @@ proto.domain.api.WebClient.prototype.toObject = function(opt_includeInstance) {
  */
 proto.domain.api.WebClient.toObject = function(includeInstance, msg) {
   var f, obj = {
-    id: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    name: jspb.Message.getFieldWithDefault(msg, 2, "")
+    id: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
 
   if (includeInstance) {
@@ -108,10 +107,6 @@ proto.domain.api.WebClient.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readUint64());
       msg.setId(value);
       break;
-    case 2:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
-      break;
     default:
       reader.skipField();
       break;
@@ -148,13 +143,6 @@ proto.domain.api.WebClient.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getName();
-  if (f.length > 0) {
-    writer.writeString(
-      2,
-      f
-    );
-  }
 };
 
 
@@ -173,24 +161,6 @@ proto.domain.api.WebClient.prototype.getId = function() {
  */
 proto.domain.api.WebClient.prototype.setId = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
-};
-
-
-/**
- * optional string name = 2;
- * @return {string}
- */
-proto.domain.api.WebClient.prototype.getName = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.domain.api.WebClient} returns this
- */
-proto.domain.api.WebClient.prototype.setName = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

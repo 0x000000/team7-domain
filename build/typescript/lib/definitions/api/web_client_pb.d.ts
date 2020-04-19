@@ -7,9 +7,6 @@ export class WebClient extends jspb.Message {
   getId(): number;
   setId(value: number): void;
 
-  getName(): string;
-  setName(value: string): void;
-
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): WebClient.AsObject;
   static toObject(includeInstance: boolean, msg: WebClient): WebClient.AsObject;
@@ -23,7 +20,6 @@ export class WebClient extends jspb.Message {
 export namespace WebClient {
   export type AsObject = {
     id: number,
-    name: string,
   }
 }
 

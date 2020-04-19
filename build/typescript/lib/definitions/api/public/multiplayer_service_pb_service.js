@@ -12,15 +12,6 @@ var MultiplayerService = (function () {
   return MultiplayerService;
 }());
 
-MultiplayerService.ListenToUpdates = {
-  methodName: "ListenToUpdates",
-  service: MultiplayerService,
-  requestStream: false,
-  responseStream: true,
-  requestType: definitions_api_web_client_pb.WebClient,
-  responseType: definitions_api_public_multiplayer_service_pb.WebAction
-};
-
 MultiplayerService.Update = {
   methodName: "Update",
   service: MultiplayerService,
@@ -30,6 +21,24 @@ MultiplayerService.Update = {
   responseType: google_protobuf_empty_pb.Empty
 };
 
+MultiplayerService.ListenToActionUpdates = {
+  methodName: "ListenToActionUpdates",
+  service: MultiplayerService,
+  requestStream: false,
+  responseStream: true,
+  requestType: definitions_api_web_client_pb.WebClient,
+  responseType: definitions_api_public_multiplayer_service_pb.WebAction
+};
+
+MultiplayerService.ListenToClientUpdates = {
+  methodName: "ListenToClientUpdates",
+  service: MultiplayerService,
+  requestStream: false,
+  responseStream: true,
+  requestType: definitions_api_web_client_pb.WebClient,
+  responseType: definitions_api_public_multiplayer_service_pb.ClientsUpdate
+};
+
 exports.MultiplayerService = MultiplayerService;
 
 function MultiplayerServiceClient(serviceHost, options) {
@@ -37,13 +46,44 @@ function MultiplayerServiceClient(serviceHost, options) {
   this.options = options || {};
 }
 
-MultiplayerServiceClient.prototype.listenToUpdates = function listenToUpdates(requestMessage, metadata) {
+MultiplayerServiceClient.prototype.update = function update(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(MultiplayerService.Update, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+MultiplayerServiceClient.prototype.listenToActionUpdates = function listenToActionUpdates(requestMessage, metadata) {
   var listeners = {
     data: [],
     end: [],
     status: []
   };
-  var client = grpc.invoke(MultiplayerService.ListenToUpdates, {
+  var client = grpc.invoke(MultiplayerService.ListenToActionUpdates, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -76,32 +116,40 @@ MultiplayerServiceClient.prototype.listenToUpdates = function listenToUpdates(re
   };
 };
 
-MultiplayerServiceClient.prototype.update = function update(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(MultiplayerService.Update, {
+MultiplayerServiceClient.prototype.listenToClientUpdates = function listenToClientUpdates(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(MultiplayerService.ListenToClientUpdates, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
     }
   });
   return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
     cancel: function () {
-      callback = null;
+      listeners = null;
       client.close();
     }
   };

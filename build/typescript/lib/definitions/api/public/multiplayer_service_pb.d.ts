@@ -35,12 +35,32 @@ export namespace WebAction {
   }
 
   export interface TypeMap {
-    CONNECTED: 0;
-    DISCONNECTED: 1;
-    ACQUIRED: 2;
-    RELEASED: 3;
+    ACQUIRED: 0;
+    RELEASED: 1;
   }
 
   export const Type: TypeMap;
+}
+
+export class ClientsUpdate extends jspb.Message {
+  clearConnectedList(): void;
+  getConnectedList(): Array<definitions_api_web_client_pb.WebClient>;
+  setConnectedList(value: Array<definitions_api_web_client_pb.WebClient>): void;
+  addConnected(value?: definitions_api_web_client_pb.WebClient, index?: number): definitions_api_web_client_pb.WebClient;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ClientsUpdate.AsObject;
+  static toObject(includeInstance: boolean, msg: ClientsUpdate): ClientsUpdate.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ClientsUpdate, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ClientsUpdate;
+  static deserializeBinaryFromReader(message: ClientsUpdate, reader: jspb.BinaryReader): ClientsUpdate;
+}
+
+export namespace ClientsUpdate {
+  export type AsObject = {
+    connectedList: Array<definitions_api_web_client_pb.WebClient.AsObject>,
+  }
 }
 

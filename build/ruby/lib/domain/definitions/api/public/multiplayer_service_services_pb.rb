@@ -16,8 +16,9 @@ module Domain
           self.unmarshal_class_method = :decode
           self.service_name = 'domain.api.public.MultiplayerService'
 
-          rpc :ListenToUpdates, Domain::Api::WebClient, stream(WebAction)
           rpc :Update, WebAction, Google::Protobuf::Empty
+          rpc :ListenToActionUpdates, Domain::Api::WebClient, stream(WebAction)
+          rpc :ListenToClientUpdates, Domain::Api::WebClient, stream(ClientsUpdate)
         end
 
         Stub = Service.rpc_stub_class
