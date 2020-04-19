@@ -4,18 +4,19 @@
 import * as definitions_api_private_loans_service_pb from "../../../definitions/api/private/loans_service_pb";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 import * as definitions_loan_pb from "../../../definitions/loan_pb";
+import * as definitions_api_web_client_pb from "../../../definitions/api/web_client_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
 type LoansServiceLoadAll = {
   readonly methodName: string;
   readonly service: typeof LoansService;
   readonly requestStream: false;
-  readonly responseStream: false;
+  readonly responseStream: true;
   readonly requestType: typeof google_protobuf_empty_pb.Empty;
-  readonly responseType: typeof definitions_api_private_loans_service_pb.AllLoansResponse;
+  readonly responseType: typeof definitions_loan_pb.Loan;
 };
 
-type LoansServiceUpdateLoan = {
+type LoansServiceUpdate = {
   readonly methodName: string;
   readonly service: typeof LoansService;
   readonly requestStream: false;
@@ -24,20 +25,20 @@ type LoansServiceUpdateLoan = {
   readonly responseType: typeof google_protobuf_empty_pb.Empty;
 };
 
-type LoansServiceListenToLoanUpdates = {
+type LoansServiceListenToUpdates = {
   readonly methodName: string;
   readonly service: typeof LoansService;
   readonly requestStream: false;
   readonly responseStream: true;
-  readonly requestType: typeof definitions_api_private_loans_service_pb.ClientData;
+  readonly requestType: typeof definitions_api_web_client_pb.WebClient;
   readonly responseType: typeof definitions_loan_pb.Loan;
 };
 
 export class LoansService {
   static readonly serviceName: string;
   static readonly LoadAll: LoansServiceLoadAll;
-  static readonly UpdateLoan: LoansServiceUpdateLoan;
-  static readonly ListenToLoanUpdates: LoansServiceListenToLoanUpdates;
+  static readonly Update: LoansServiceUpdate;
+  static readonly ListenToUpdates: LoansServiceListenToUpdates;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -72,24 +73,16 @@ export class LoansServiceClient {
   readonly serviceHost: string;
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
-  loadAll(
-    requestMessage: google_protobuf_empty_pb.Empty,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: definitions_api_private_loans_service_pb.AllLoansResponse|null) => void
-  ): UnaryResponse;
-  loadAll(
-    requestMessage: google_protobuf_empty_pb.Empty,
-    callback: (error: ServiceError|null, responseMessage: definitions_api_private_loans_service_pb.AllLoansResponse|null) => void
-  ): UnaryResponse;
-  updateLoan(
+  loadAll(requestMessage: google_protobuf_empty_pb.Empty, metadata?: grpc.Metadata): ResponseStream<definitions_loan_pb.Loan>;
+  update(
     requestMessage: definitions_loan_pb.Loan,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
   ): UnaryResponse;
-  updateLoan(
+  update(
     requestMessage: definitions_loan_pb.Loan,
     callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
   ): UnaryResponse;
-  listenToLoanUpdates(requestMessage: definitions_api_private_loans_service_pb.ClientData, metadata?: grpc.Metadata): ResponseStream<definitions_loan_pb.Loan>;
+  listenToUpdates(requestMessage: definitions_api_web_client_pb.WebClient, metadata?: grpc.Metadata): ResponseStream<definitions_loan_pb.Loan>;
 }
 

@@ -1,0 +1,21 @@
+syntax = "proto3";
+package domain.api.public;
+
+import "definitions/api/web_client.proto";
+
+message WebAction {
+  enum Type {
+    CONNECTED = 0;
+    DISCONNECTED = 1;
+    ACQUIRED = 2;
+    RELEASED = 3;
+  }
+
+  WebClient client = 1;
+  Type type = 2;
+  string element_locator = 3;
+}
+
+service MultiplayerService {
+  rpc ListenToUpdates(WebClient) returns (stream WebAction);
+}

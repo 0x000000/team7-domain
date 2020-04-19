@@ -16,9 +16,9 @@ module Domain
           self.unmarshal_class_method = :decode
           self.service_name = 'domain.api.private.LoansService'
 
-          rpc :LoadAll, Google::Protobuf::Empty, AllLoansResponse
-          rpc :UpdateLoan, Domain::Loan, Google::Protobuf::Empty
-          rpc :ListenToLoanUpdates, ClientData, stream(Domain::Loan)
+          rpc :LoadAll, Google::Protobuf::Empty, stream(Domain::Loan)
+          rpc :Update, Domain::Loan, Google::Protobuf::Empty
+          rpc :ListenToUpdates, Domain::Api::WebClient, stream(Domain::Loan)
         end
 
         Stub = Service.rpc_stub_class

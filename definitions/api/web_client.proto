@@ -1,0 +1,7 @@
+syntax = "proto3";
+package domain.api;
+
+message WebClient {
+  uint64 id = 1;
+  string name = 2;
+}

@@ -2,7 +2,6 @@
 // file: definitions/loan.proto
 
 import * as jspb from "google-protobuf";
-import * as definitions_types_date_pb from "../definitions/types/date_pb";
 import * as definitions_user_pb from "../definitions/user_pb";
 import * as definitions_address_pb from "../definitions/address_pb";
 
@@ -26,15 +25,11 @@ export class Loan extends jspb.Message {
   getAddress(): definitions_address_pb.Address | undefined;
   setAddress(value?: definitions_address_pb.Address): void;
 
-  hasCreatedAt(): boolean;
-  clearCreatedAt(): void;
-  getCreatedAt(): definitions_types_date_pb.DateTimeUTC | undefined;
-  setCreatedAt(value?: definitions_types_date_pb.DateTimeUTC): void;
+  getCreatedAt(): number;
+  setCreatedAt(value: number): void;
 
-  hasUpdatedAt(): boolean;
-  clearUpdatedAt(): void;
-  getUpdatedAt(): definitions_types_date_pb.DateTimeUTC | undefined;
-  setUpdatedAt(value?: definitions_types_date_pb.DateTimeUTC): void;
+  getUpdatedAt(): number;
+  setUpdatedAt(value: number): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Loan.AsObject;
@@ -53,8 +48,8 @@ export namespace Loan {
     user?: definitions_user_pb.User.AsObject,
     state: Loan.StateMap[keyof Loan.StateMap],
     address?: definitions_address_pb.Address.AsObject,
-    createdAt?: definitions_types_date_pb.DateTimeUTC.AsObject,
-    updatedAt?: definitions_types_date_pb.DateTimeUTC.AsObject,
+    createdAt: number,
+    updatedAt: number,
   }
 
   export interface StateMap {

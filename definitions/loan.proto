@@ -1,7 +1,6 @@
 syntax = "proto3";
 package domain;
 
-import "definitions/types/date.proto";
 import "definitions/user.proto";
 import "definitions/address.proto";
 
@@ -13,12 +12,12 @@ message Loan {
     Rejected = 100;
   }
 
-  uint64 id = 1;
+  uint32 id = 1;
   string notes = 2;
   User user = 3;
   State state = 4;
   Address address = 5;
 
-  types.DateTimeUTC created_at = 100;
-  types.DateTimeUTC updated_at = 101;
+  int64 created_at = 6;
+  int64 updated_at = 7;
 }
