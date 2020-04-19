@@ -1,6 +1,7 @@
 syntax = "proto3";
 package domain.api.public;
 
+import "google/protobuf/empty.proto";
 import "definitions/api/web_client.proto";
 
 message WebAction {
@@ -18,4 +19,5 @@ message WebAction {
 
 service MultiplayerService {
   rpc ListenToUpdates(WebClient) returns (stream WebAction);
+  rpc Update(WebAction) returns (google.protobuf.Empty);
 }

@@ -17,6 +17,7 @@ module Domain
           self.service_name = 'domain.api.public.MultiplayerService'
 
           rpc :ListenToUpdates, Domain::Api::WebClient, stream(WebAction)
+          rpc :Update, WebAction, Google::Protobuf::Empty
         end
 
         Stub = Service.rpc_stub_class

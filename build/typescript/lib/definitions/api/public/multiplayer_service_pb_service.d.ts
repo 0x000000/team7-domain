@@ -2,6 +2,7 @@
 // file: definitions/api/public/multiplayer_service.proto
 
 import * as definitions_api_public_multiplayer_service_pb from "../../../definitions/api/public/multiplayer_service_pb";
+import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 import * as definitions_api_web_client_pb from "../../../definitions/api/web_client_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
@@ -14,9 +15,19 @@ type MultiplayerServiceListenToUpdates = {
   readonly responseType: typeof definitions_api_public_multiplayer_service_pb.WebAction;
 };
 
+type MultiplayerServiceUpdate = {
+  readonly methodName: string;
+  readonly service: typeof MultiplayerService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof definitions_api_public_multiplayer_service_pb.WebAction;
+  readonly responseType: typeof google_protobuf_empty_pb.Empty;
+};
+
 export class MultiplayerService {
   static readonly serviceName: string;
   static readonly ListenToUpdates: MultiplayerServiceListenToUpdates;
+  static readonly Update: MultiplayerServiceUpdate;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -52,5 +63,14 @@ export class MultiplayerServiceClient {
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
   listenToUpdates(requestMessage: definitions_api_web_client_pb.WebClient, metadata?: grpc.Metadata): ResponseStream<definitions_api_public_multiplayer_service_pb.WebAction>;
+  update(
+    requestMessage: definitions_api_public_multiplayer_service_pb.WebAction,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
+  ): UnaryResponse;
+  update(
+    requestMessage: definitions_api_public_multiplayer_service_pb.WebAction,
+    callback: (error: ServiceError|null, responseMessage: google_protobuf_empty_pb.Empty|null) => void
+  ): UnaryResponse;
 }
 
